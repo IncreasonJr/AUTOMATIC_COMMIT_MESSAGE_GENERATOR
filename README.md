@@ -226,7 +226,13 @@ Try one of these:
 
 ## Current Status
 
-The extension is functional for local testing. Before publishing to the VS Code Marketplace, replace the placeholder publisher id, add marketplace assets, add a license file, add a changelog, and run real Extension Development Host testing across several repositories.
+The extension is functional for local testing and includes Marketplace metadata, an icon, a changelog, and an MIT license. Before publishing to the VS Code Marketplace, install the packaged VSIX locally and test the main flows across several repositories.
+
+## Support
+
+- Report bugs or request features on [GitHub Issues](https://github.com/CalebEdudziDelator/vscode-auto-commit-gen/issues).
+- View the source code in the [GitHub repository](https://github.com/CalebEdudziDelator/vscode-auto-commit-gen).
+- Open an issue if you find a bug, want to suggest a provider, or have an idea for improving commit message generation.
 
 ## License
 

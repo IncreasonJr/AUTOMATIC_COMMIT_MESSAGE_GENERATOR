@@ -4,12 +4,21 @@
   "description": "AI-powered commit message generator with rule-based fallback",
   "version": "0.1.0",
   "publisher": "CalebEdudziDelator",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CalebEdudziDelator/vscode-auto-commit-gen"
+  },
+  "homepage": "https://github.com/CalebEdudziDelator/vscode-auto-commit-gen/blob/main/README.md",
+  "bugs": {
+    "url": "https://github.com/CalebEdudziDelator/vscode-auto-commit-gen/issues",
+    "email": "0324080632@htu.edu.gh"
+  },
   "icon": "ICON/icon.png",
   "engines": {
     "vscode": "^1.85.0"
   },
-  "categories": ["Other"],
-  "keywords": ["git", "commit", "ai", "ollama", "openai", "claude", "conventional commits"],
+  "categories": ["SCM Providers", "Other"],
+  "keywords": ["git", "commit", "ai", "openai", "claude", "ollama", "conventional-commits", "automation", "productivity"],
   "activationEvents": ["workspaceContains:.git"],
   "main": "./out/extension.js",
   "contributes": {
