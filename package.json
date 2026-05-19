@@ -1,0 +1,219 @@
+{
+  "name": "auto-commit-gen",
+  "displayName": "Auto Commit Gen",
+  "description": "AI-powered commit message generator with rule-based fallback",
+  "version": "0.1.0",
+  "publisher": "CalebEdudziDelator",
+  "icon": "ICON/icon.png",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "keywords": ["git", "commit", "ai", "ollama", "openai", "claude", "conventional commits"],
+  "activationEvents": ["workspaceContains:.git"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "autoCommitGen.generate",
+        "title": "Generate Commit Message",
+        "icon": "$(sparkle)"
+      },
+      {
+        "command": "autoCommitGen.generateAndCommit",
+        "title": "⚡ Generate & Commit",
+        "icon": "$(git-commit)"
+      },
+      {
+        "command": "autoCommitGen.configure",
+        "title": "Auto Commit Gen: Open Settings"
+      }
+    ],
+    "menus": {
+      "scm/title": [
+        {
+          "command": "autoCommitGen.generate",
+          "group": "navigation@1",
+          "when": "scmProvider == git"
+        },
+        {
+          "command": "autoCommitGen.generateAndCommit",
+          "group": "navigation@2",
+          "when": "scmProvider == git"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "autoCommitGen.generate",
+          "when": "workspaceFolderCount > 0"
+        },
+        {
+          "command": "autoCommitGen.generateAndCommit",
+          "when": "workspaceFolderCount > 0"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "autoCommitGen.generate",
+        "key": "ctrl+alt+g",
+        "mac": "cmd+alt+g",
+        "when": "workspaceFolderCount > 0"
+      },
+      {
+        "command": "autoCommitGen.generateAndCommit",
+        "key": "ctrl+alt+c",
+        "mac": "cmd+alt+c",
+        "when": "workspaceFolderCount > 0"
+      }
+    ],
+    "configuration": {
+      "title": "Auto Commit Gen",
+      "properties": {
+        "autoCommitGen.provider": {
+          "type": "string",
+          "default": "rule-based",
+          "enum": ["rule-based", "ollama", "openai", "claude", "hybrid"],
+          "enumDescriptions": [
+            "Fast deterministic rule-based generation (no AI, no API key needed)",
+            "Local Ollama instance (privacy-first, free)",
+            "OpenAI GPT models (requires API key)",
+            "Anthropic Claude models (requires API key)",
+            "Rules first, AI enhancement on top (rules as offline fallback)"
+          ],
+          "description": "Commit message generation provider"
+        },
+        "autoCommitGen.hybridProvider": {
+          "type": "string",
+          "default": "ollama",
+          "enum": ["ollama", "openai", "claude"],
+          "enumDescriptions": [
+            "Try local Ollama first, then fall back to rules if unavailable",
+            "Try OpenAI first, then fall back to rules if unavailable",
+            "Try Claude first, then fall back to rules if unavailable"
+          ],
+          "description": "AI provider to use when autoCommitGen.provider is set to hybrid"
+        },
+        "autoCommitGen.ollamaEndpoint": {
+          "type": "string",
+          "default": "http://localhost:11434",
+          "description": "Ollama API base URL"
+        },
+        "autoCommitGen.ollamaModel": {
+          "type": "string",
+          "default": "llama3.2",
+          "description": "Ollama model name (e.g. llama3.2, mistral, codellama)"
+        },
+        "autoCommitGen.openaiModel": {
+          "type": "string",
+          "default": "gpt-4o-mini",
+          "description": "OpenAI model to use"
+        },
+        "autoCommitGen.claudeModel": {
+          "type": "string",
+          "default": "claude-haiku-4-5-20251001",
+          "description": "Claude model to use"
+        },
+        "autoCommitGen.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "API key for OpenAI or Claude"
+        },
+        "autoCommitGen.commitStyle": {
+          "type": "string",
+          "default": "conventional",
+          "enum": ["conventional", "simple", "detailed", "emoji"],
+          "enumDescriptions": [
+            "Conventional Commits (feat:, fix:, chore:, etc.)",
+            "Simple imperative sentence",
+            "Detailed multi-line with body",
+            "Emoji prefix (feat, fix, etc.)"
+          ],
+          "description": "Commit message style"
+        },
+        "autoCommitGen.maxDiffLines": {
+          "type": "number",
+          "default": 300,
+          "minimum": 50,
+          "maximum": 2000,
+          "description": "Max diff lines sent to AI (larger = more accurate but slower/costlier)"
+        },
+        "autoCommitGen.autoStage": {
+          "type": "boolean",
+          "default": false,
+          "description": "Auto-stage all changes before generating (git add -A)"
+        },
+        "autoCommitGen.showPreview": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show quick-pick preview before inserting message"
+        },
+        "autoCommitGen.numSuggestions": {
+          "type": "number",
+          "default": 3,
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Number of AI suggestions to generate"
+        },
+        "autoCommitGen.subjectMaxLength": {
+          "type": "number",
+          "default": 72,
+          "minimum": 40,
+          "maximum": 120,
+          "description": "Maximum preferred length for the first commit message line"
+        },
+        "autoCommitGen.aiTemperature": {
+          "type": "number",
+          "default": 0.5,
+          "minimum": 0,
+          "maximum": 1,
+          "description": "AI creativity level. Lower values are more consistent; higher values are more varied"
+        },
+        "autoCommitGen.aiTimeoutSeconds": {
+          "type": "number",
+          "default": 30,
+          "minimum": 5,
+          "maximum": 120,
+          "description": "Maximum time to wait for AI providers before failing"
+        },
+        "autoCommitGen.hybridTimeoutSeconds": {
+          "type": "number",
+          "default": 20,
+          "minimum": 3,
+          "maximum": 90,
+          "description": "Maximum time hybrid mode waits for AI before using the rule-based fallback"
+        },
+        "autoCommitGen.confirmBeforeCommit": {
+          "type": "boolean",
+          "default": true,
+          "description": "Ask for confirmation before Generate & Commit runs git commit"
+        },
+        "autoCommitGen.showFallbackWarnings": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show a warning when hybrid mode falls back to rule-based generation"
+        },
+        "autoCommitGen.telemetryEnabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Allow anonymous usage telemetry if telemetry is added in a future release. Currently, this extension sends no telemetry"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile",
+    "lint": "eslint . --ext ts --ignore-pattern out --ignore-pattern node_modules"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "typescript": "^5.3.0"
+  }
+}

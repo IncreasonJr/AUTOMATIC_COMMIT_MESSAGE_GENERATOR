@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "Node16",
+    "target": "ES2022",
+    "outDir": "out",
+    "lib": ["ES2022"],
+    "sourceMap": true,
+    "rootDir": ".",
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "moduleResolution": "Node16",
+    "esModuleInterop": true
+  },
+  "include": ["*.ts", "config/**/*.ts", "generators/**/*.ts", "git/**/*.ts", "ui/**/*.ts"],
+  "exclude": ["node_modules", "out", ".vscode-test"]
+}
