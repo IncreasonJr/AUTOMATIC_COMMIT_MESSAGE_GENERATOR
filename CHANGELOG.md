@@ -2,6 +2,12 @@
 
 All notable changes to Auto Commit Gen will be documented in this file.
 
+## [0.1.1] - 2026-11-13
+
+### Changed
+
+- Updated extension icon, no functional changes.
+
 ## [0.0.1] - 2026-05-19
 
 ### Added

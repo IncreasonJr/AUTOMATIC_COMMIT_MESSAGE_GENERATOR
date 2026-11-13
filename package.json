@@ -2,7 +2,7 @@
   "name": "auto-commit-gen",
   "displayName": "Auto Commit Gen",
   "description": "AI-powered commit message generator with rule-based fallback",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "CalebEdudziDelator",
   "repository": {
     "type": "git",
