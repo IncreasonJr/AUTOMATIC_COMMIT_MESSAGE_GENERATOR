@@ -8,3 +8,6 @@ tsconfig.json
 **/*.ts
 !out/**
 node_modules/**
+ICON/*.jpg
+ICON/*.jpeg
+ICON/*.JPG
